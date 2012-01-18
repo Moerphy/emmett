@@ -140,7 +140,7 @@ You pass sourcecode in by piping it through stdin and get a JSON description of 
 
 ```
 
-cat mycode.js | emmet > mycode.json
+cat mycode.js | emmett > mycode.json
 
 ```
 
@@ -161,11 +161,11 @@ The parser should work in nodeJS and any browser.
 var Parser = require('./lib/parser.js');
 var p = new Parser();
 // in a browser with an AMD loader:
-require(['emmet/Parser'], function(Parser){
+require(['emmett/Parser'], function(Parser){
   var p = new Parser();
 });
 // in a browser without AMD loader:
-var Parser = window.emmet.Parser;
+var Parser = window.emmett.Parser;
 var p = new Parser();
 
 // after you made a parser you can hook into the parsing process and do some stuff 

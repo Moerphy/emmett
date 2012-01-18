@@ -1,9 +1,6 @@
 (function(undefined){
-  /**
-   * @module 
-   */
 
-  var Parser = function(code){
+  var Parser = function(){
     this.pos = 0;
     this.code = '';
     this.callbacks = {};
@@ -128,7 +125,7 @@
     
     readTags: function(comment, pos){
       var tags = [];
-      var regexp = /@(\S+) ([^@]+)/g; // TODO: regexp as string, pull out @ to attribute
+      var regexp = /@(\S+)([^@]*)/g; // TODO: regexp as string, pull out @ to attribute
       
       while( match = regexp.exec(comment) ){
         tags.push({
@@ -184,13 +181,12 @@
   if( module ){
     module.exports = Parser;
   }else if( window ){
-    if( window.define ){
-      define( 'emmet/Parser', [], function(){ return Parser; } );
+    if( define && define.amd ){
+      define( 'emmett/Parser', [], function(){ return Parser; } );
     }else{
-      window.emmet = window.emmet || {};
-      window.emmet.Parser = Parser;
+      window.emmett = window.emmet || {};
+      window.emmett.Parser = Parser;
     }
-    
   }
 })();
 
