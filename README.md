@@ -136,7 +136,7 @@ Note that the output is ordered by namespace, then by name (that's why MyClass.p
 
 For a comment to appear in the output you have to name it with @name or something similiar. If you have to name nested structures (like above) or packages you can also use a full path like @name MyLib.MyNamespace.MyClass . In this case the output would be something like this:
 
-```
+```javascript
 
 /**
  * @name MyLib.MyNamespace.MyClass
@@ -150,7 +150,7 @@ For a comment to appear in the output you have to name it with @name or somethin
 ```
 The namespace and the name form the fully qualified name (fqn). The last part of the fqn will be used for the name attribute in the output, the rest as namespace. The following comments would create the same output as above:
 
-```
+```javascript
 
 /**
  * @namespace MyLib
@@ -158,10 +158,10 @@ The namespace and the name form the fully qualified name (fqn). The last part of
  */
 
 ```
-```
+```javascript
 
 /**
- * @namespace MyLib. MyNamespace
+ * @namespace MyLib.MyNamespace
  * @name MyClass
  */
 
@@ -171,7 +171,7 @@ The namespace and the name form the fully qualified name (fqn). The last part of
 
 The general format is the one specified by the Javadoc spec. 
 
-```
+```javascript
 /** 
  * DESCRIPTION 
  * Can be multiline
@@ -203,7 +203,7 @@ The following tags are build into the default formatter :
 
 You pass sourcecode in by piping it through stdin and get a JSON description of your comments on stdout.
 
-```
+```bash
 
 cat mycode.js | emmett > mycode.json
 
