@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var Parser = require('./lib/parser.js');
-var Formatter = require('./lib/formatter.js');
+var Formatter = require('./lib/arrayformatter.js');
 
 var data = '';
 

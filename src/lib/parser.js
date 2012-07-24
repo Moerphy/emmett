@@ -120,7 +120,7 @@
           break;
         }
       } // read until next @. respect escaped @: \@
-      return comment.substring(0, i);
+      return comment.substring(0, i).replace(/\\@/g, '@');
     },
     
     readTags: function(comment, pos){
@@ -128,9 +128,11 @@
       var regexp = /@(\S+)([^@]*)/g; // TODO: regexp as string, pull out @ to attribute
       
       while( match = regexp.exec(comment) ){
+        var val = match[2];
+        
         tags.push({
           name: match[1],
-          value: match[2]
+          value: val.replace(/\\@/g, '@')
         });
       }
       

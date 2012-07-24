@@ -1,12 +1,17 @@
 /**
- * Deprecated formatter that outputs a nested object structure, based on the FQN of a comment.
+ * Puts all the comment information in one array, sorted by name.
+ * Example: 
+ * [ { name: 'foo', object: true, value1: 123, value2: 1234 }, { name: 'foobar', function: true, value1: 456, bla:'abc' }, { name: 'xyz', val: 'abc', object: true } ]
+ * 
  */
+
 (function(undefined){
 
   var Formatter = function(parser){
     var that = this;
-    this.root = {};
+    this.root = []
     this.parser = parser;
+    this.current = undefined;
   };
 
 
@@ -16,7 +21,7 @@
      */
     format: function(code){
       var that = this;
-      this.root = {};
+      this.root = [];
       this.current = {};
       this._namespace = '';
       
@@ -30,33 +35,34 @@
         }
       });
       this.parser.parse(code);
+      this.root.sort( this.sortRoot );
       
       return this.root;
     },
     
+    sortRoot: function( a, b ){
+      // 
+      var aFullName = (a.namespace + '.' + a.name).toLowerCase();
+      var bFullName = (b.namespace + '.' + b.name).toLowerCase();
+      
+      var index = 0;
+      if( aFullName > bFullName ){
+        index = 1;
+      }else if( aFullName < bFullName ){
+        index = -1;
+      }
+      //console.log("Comparing: " + aFullName + " / " + bFullName + " -> " + aFullName.localeCompare(bFullName) );
+      return index;
+    },
+    
     saveCurrent: function(){
       if( this.current.name ){
-        var path = (this._namespace + '.' + this.current.name).split('.');
+        var namespace = this._namespace || '';
+        var fullName = (namespace + '.' + this.current.name).split('.').filter(function(n){ return n.length });
+        this.current.name = fullName.pop();
         
-        var name = path.pop();
-        this.current.name = name;
-        var current = this.root;
-        for( var i = 0; i < path.length; ++i ){
-          var p = path[i];
-          if( !current[p] ){
-            current[p] = {};
-          }
-          current = current[p];
-        }
-        if( current[name] ){
-          if( current[name].prototype && typeof current[name].prototype.push === 'function' ){
-            current[name].push(this.current);
-          }else{
-            current[name] = [ current[name], this.current ];
-          }
-        }else{
-          current[name] = this.current;
-        }
+        this.current.namespace = fullName.join('.');
+        this.root.push( this.current );
       }
     },
     
